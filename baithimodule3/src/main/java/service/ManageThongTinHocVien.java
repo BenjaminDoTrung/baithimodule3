@@ -34,19 +34,20 @@ public class ManageThongTinHocVien {
         RequestDispatcher rq = request.getRequestDispatcher("showlistthongtinhocvien.jsp");
         rq.forward(request, response);
     }
-    public void deleteThongTin(HttpServletRequest request, HttpServletResponse response){
+
+    public void deleteThongTin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ThongTinHocVienDAO thongTinHocVienDAO = new ThongTinHocVienDAO();
         ManageThongTinHocVien manageThongTinHocVien = new ManageThongTinHocVien();
         List<ThongTinHocVien> list = manageThongTinHocVien.listThongTin();
         String name = request.getParameter("name");
         for (ThongTinHocVien t : list) {
-            if (t.getName().equals(name)){
+            if (t.getName().equals(name)) {
                 list.remove(t);
                 thongTinHocVienDAO.deleteThongTin(name);
                 break;
             }
         }
-
+        response.sendRedirect("ThongTinHocVienServlet");
     }
 
     public void AddthongTin(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -61,7 +62,7 @@ public class ManageThongTinHocVien {
         ClassRoom classRoom = null;
         List<ClassRoom> classRooms = manageClassRoom.classRooms();
         for (ClassRoom c : classRooms) {
-            if (c.getId() == id){
+            if (c.getId() == id) {
                 classRoom = c;
                 break;
             }
@@ -73,15 +74,38 @@ public class ManageThongTinHocVien {
         thongTinHocVienDAO.AddThongTin(thongTinHocVien);
         response.sendRedirect("ThongTinHocVienServlet");
     }
-    public ThongTinHocVien thongTinHocVien(String name){
+
+    public ThongTinHocVien thongTinHocVien(String name) {
         ManageThongTinHocVien manageThongTinHocVien = new ManageThongTinHocVien();
         List<ThongTinHocVien> list = manageThongTinHocVien.listThongTin();
         for (ThongTinHocVien t : list) {
-            if (t.getName().equals(name)){
+            if (t.getName().equals(name)) {
                 return t;
             }
         }
         return null;
+    }
+
+    public void updateThongTin(HttpServletRequest request, HttpServletResponse response) {
+        ThongTinHocVienDAO thongTinHocVienDAO = new ThongTinHocVienDAO();
+        ManageClassRoom manageClassRoom = new ManageClassRoom();
+        ManageThongTinHocVien manageThongTinHocVien = new ManageThongTinHocVien();
+        List<ThongTinHocVien> list = manageThongTinHocVien.listThongTin();
+        for (ThongTinHocVien t : list) {
+            if (t.getName().equals(request.getParameter("name"))) {
+                thongTinHocVienDAO.updateTongTin(t);
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getName().equals(request.getParameter("name"))) {
+                list.get(i).setName(request.getParameter("name"));
+                list.get(i).setEmail(request.getParameter("email"));
+                list.get(i).setDateOfBirth(LocalDate.parse(request.getParameter("date")));
+                list.get(i).setAddress(request.getParameter("address"));
+                list.get(i).setPhone(request.getParameter("phone"));
+                list.get(i).setClassRoom(manageClassRoom.oneClass(Integer.parseInt(request.getParameter("class"))));
+            }
+        }
     }
 
 }

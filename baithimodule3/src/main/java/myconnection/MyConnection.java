@@ -5,19 +5,26 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-    private static final String URL = "jdbc:mysql://localhost:8080/baithimodule3";
-    private static final String username = "root";
-    private static final String password = "123456";
+    private static Connection connection;
 
-    public static Connection getConnection() {
+    public static Connection getInstance() {
+        if (connection == null) {
+            connection = getConnection();
+        }
+        return connection;
+    }
+
+    private static Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
+            String URL = "jdbc:mysql://localhost:3306/baithimodule3";
+            String username = "root";
+            String password = "123456";
             connection = DriverManager.getConnection(URL, username, password);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
     }
-
 }

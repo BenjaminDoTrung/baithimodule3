@@ -15,7 +15,7 @@ public class ClassRoomDAO {
     public List<ClassRoom> listClassRoom () {
         List<ClassRoom> classRooms = new ArrayList<>();
         try {
-            Connection conn = MyConnection.getConnection();
+            Connection conn = MyConnection.getInstance();
             PreparedStatement pr = conn.prepareStatement(selectClassRoom);
             ResultSet resultSet = pr.executeQuery();
             while (resultSet.next()){

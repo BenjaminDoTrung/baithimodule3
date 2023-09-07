@@ -28,13 +28,14 @@ public class ThongTinHocVienServlet extends HttpServlet {
                 manageThongTinHocVien.deleteThongTin(request,response);
                 break;
             case "addThongTin":
+                manageThongTinHocVien.AddthongTin(request, response);
+                break;
+            case "update":
                 String name = request.getParameter("name");
                 ThongTinHocVien thongTinHocVien = manageThongTinHocVien.thongTinHocVien(name);
                 request.setAttribute("thongtin", thongTinHocVien);
                 RequestDispatcher rq = request.getRequestDispatcher("addthongtin.jsp");
                 rq.forward(request, response);
-                break;
-
         }
     }
 
@@ -46,8 +47,8 @@ public class ThongTinHocVienServlet extends HttpServlet {
             action = "";
         }
         switch (action){
-            case "addthongtin":
-                manageThongTinHocVien.AddthongTin(request, response);
+            case "update":
+                manageThongTinHocVien.updateThongTin(request, response);
                 break;
         }
     }

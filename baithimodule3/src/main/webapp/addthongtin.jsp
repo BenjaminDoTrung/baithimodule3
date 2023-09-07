@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form method="post" action="ThongTinHocVienServlet?action=addthongtin">
+<form method="post" action="ThongTinHocVienServlet?action=update">
   <p>Nhập name</p>
   <input name="name" placeholder="input id" value="${thongtin.getName()}">
   <p>Nhập email</p>
@@ -24,7 +24,7 @@
   <p>Nhập Phonenumber</p>
   <input name="phone" placeholder="input name" value="${thongtin.getPhone()}">
   <p>Nhập Class</p>
-  <input name="class" placeholder="Input price" value="${thongtin.getClassRoom().getNameClass()}">
+  <input name="class" placeholder="Input price" value="${thongtin.getClassRoom().getId()}">
   <input type="submit" value="sumit">
 </form>
 </body>

@@ -20,6 +20,7 @@ public class ThongTinHocVienDAO {
     private static final String selectThongTin = "select * from thongtinhocvien;";
     private static final String addThongTin = "insert into thongtinhocvien (name, email, dateofbirth, address, phonenumber, classroom) values (?, ?, ?, ?, ?, ?);";
     private static final String deleteThongTin = "delete from product where id = ?";
+    private static final String updateTongTin = "update thongtinhocvien set name = ?, email= ?, dateofbirth =?, address = ?, phonenumber = ?, classroom = ? where name = ?;";
 
 
     public List<ThongTinHocVien> listThongTin() {
@@ -27,7 +28,7 @@ public class ThongTinHocVienDAO {
         List<ThongTinHocVien> thongTinHocVienList = new ArrayList<>();
         List<ClassRoom> list = manageClassRoom.classRooms();
         try {
-            Connection connection = MyConnection.getConnection();
+            Connection connection = MyConnection.getInstance();
             PreparedStatement pr = connection.prepareStatement(selectThongTin);
             ResultSet resultSet = pr.executeQuery();
             while (resultSet.next()) {
@@ -55,28 +56,45 @@ public class ThongTinHocVienDAO {
         }
         return thongTinHocVienList;
     }
-    public void deleteThongTin(String name){
+
+    public void deleteThongTin(String name) {
         try {
-            Connection conn = MyConnection.getConnection();
+            Connection conn = MyConnection.getInstance();
             PreparedStatement pr = conn.prepareStatement(deleteThongTin);
             pr.executeUpdate();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void AddThongTin(ThongTinHocVien thongTin) {
         try {
-                Connection conn = MyConnection.getConnection();
-                PreparedStatement pr = conn.prepareStatement(addThongTin);
-                pr.setString(1, thongTin.getName());
-                pr.setString(2, thongTin.getEmail());
-                pr.setDate(3, Date.valueOf(thongTin.getDateOfBirth()));
-                pr.setString(4, thongTin.getAddress());
-                pr.setString(5, thongTin.getPhone());
-                pr.setInt(6, thongTin.getClassRoom().getId());
-                pr.executeUpdate();
-        } catch (Exception e){
+            Connection conn = MyConnection.getInstance();
+            PreparedStatement pr = conn.prepareStatement(addThongTin);
+            pr.setString(1, thongTin.getName());
+            pr.setString(2, thongTin.getEmail());
+            pr.setDate(3, Date.valueOf(thongTin.getDateOfBirth()));
+            pr.setString(4, thongTin.getAddress());
+            pr.setString(5, thongTin.getPhone());
+            pr.setInt(6, thongTin.getClassRoom().getId());
+            pr.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateTongTin(ThongTinHocVien thongTin) {
+        try {
+            Connection conn = MyConnection.getInstance();
+            PreparedStatement pre = conn.prepareStatement(updateTongTin);
+            pre.setString(1, thongTin.getName());
+            pre.setString(2, thongTin.getEmail());
+            pre.setDate(3, Date.valueOf(thongTin.getDateOfBirth()));
+            pre.setString(4, thongTin.getAddress());
+            pre.setString(5, thongTin.getPhone());
+            pre.setInt(6, thongTin.getClassRoom().getId());
+            pre.setString(7, thongTin.getName());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

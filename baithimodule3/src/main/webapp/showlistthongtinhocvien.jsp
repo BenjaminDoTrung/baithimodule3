@@ -36,11 +36,11 @@
             <td><c:out value="${t.getAddress()}"></c:out></td>
             <td><c:out value="${t.getPhone()}"></c:out></td>
             <td><c:out value="${t.getClassRoom().getNameClass()}"></c:out></td>
-            <a class="btn btn-danger" href="ThongTinHocVienServlet?action=name">update</a>
+            <a class="btn btn-danger" href="ThongTinHocVienServlet?action=update&&name=${t.getName()}">update</a>
             <a class="btn btn-danger" href="ThongTinHocVienServlet?action=delete&&name=${t.getName()}">delete</a>
         </tr>
     </c:forEach>
 </table>
-<td><a class="btn btn-danger" href="giaodienadmin?action=">BacktoList</a></td>
+<td><a class="btn btn-danger" href="ThongTinHocVienServlet?action=">BacktoList</a></td>
 </body>
 </html>
